@@ -83,18 +83,48 @@ a{
 .pntA{
     background-color: green;
     border: 1.75px rgb(2, 94, 2) solid;
+
+    text-align: center;
     
 }
 .pntA::after{
     content: 'A';
 }
+
 .pntB{
     background-color: green;
     border: 1.75px rgb(2, 94, 2) solid;
     content: 'B';
+
+    text-align: center
 }
 .pntB::after{
     content: 'B';
+}
+
+.barr{
+    background-color: #4158D0;
+}
+
+#td{
+    /* background-color: rgba(0, 0, 0, 0.2); */
+    background: transparent;
+    /* border-radius: 2px; */
+    border-color:  white gray;
+
+    border: 0px;
+    
+    border-bottom: 1px solid white;
+    box-shadow: none;
+    max-width: 15%;
+
+
+    
+
+
+    color: white;
+    text-align: right;
+    margin-left: 2%;
 }
 
 
@@ -108,4 +138,11 @@ a{
     padding: 7px;
 
     border-radius: 20px;
+}
+.insrt-wrapper > button {
+    display: grid;
+    place-items: center;
+    margin: auto;
+    font-size: 15px;
+    /* border-radius: 7px; */
 }
