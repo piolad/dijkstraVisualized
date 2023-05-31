@@ -45,75 +45,141 @@ function getSurroundings(pnt){
     return result;
 }
 
+function getSurroundingsXYs(pnt) {
+    result = [];
+
+    if(pnt[0] + 1 < grid_n)
+        result.push([pnt[0] + 1, pnt[1]])
+    
+    if(pnt[0] > 0)
+        result.push([pnt[0] - 1, pnt[1]])
+    
+    if(pnt[1] + 1 < grid_n)
+        result.push([pnt[0], pnt[1] + 1])
+    
+    if(pnt[1] > 0)
+        result.push([pnt[0], pnt[1] - 1])
+    
+    return result;
+}
+
 const distances = {};
 
-function dijkstraSolve(){
+function dijkstraSolve() {
+    const pntB_XY = getXY(pntB)
 
-    console.log("b");
     if(pntA == null || pntB == null){
         return null;
     }
-    // const distances = {};
+
+    const distances = {};
     const previous = {}
     const unvisited = new Set();
     
-    for(let row of grid){
-        for(let el of row){
-            distances[el] = Infinity;
-            previous[el] = null;
-            unvisited.add(el);
+    for(i = 0; i < grid_n; i++){
+        for (j = 0; j < grid_n; j++){
+            
+            distances[[i, j]] = Infinity;
+            previous[[i, j]] = null;
+            unvisited.add([i, j]);
         }
     }
-    distances[pntA] = 0;
 
-    console.log(distances)
+    
+    console.log(distances);
+    // console.log(getXY(pntA));
+    distances[getXY(pntA)] = 0;
 
-    while(unvisited.size > 0){
+    
+    // return;
+    
+
+    while (unvisited.size > 0) {
+        // console.log(1);
         let currentEl = null;
         let minDist = Infinity;
     
-        for(const el of unvisited){
+        for (const el of unvisited) {
             if(distances[el] < minDist){
                 currentEl = el;
                 minDist = distances[el];
+                // break;
             }
         }
+        
+        // return;
+        // console.log(currentEl)
+        
+        // console.log("==========")
+        // console.log(currentEl)
+        // console.log(getXY(pntB))
 
-        if(currentEl === pntB){
+        
+        if(currentEl[0] ==  pntB_XY[0] && currentEl[1] ==  pntB_XY[1]){
             // console.log(distances)
             // console.log(previous)
             // console.log(unvisited)
 
 
             const path = [];
+            currentEl = previous[currentEl]
             while(previous[currentEl]){
                 path.push(currentEl)
                 currentEl = previous[currentEl];
             }
-            path.push(pntA)
-            path.reverse()
+
+            // path.push(getXY(pntA));
+            
+            path.reverse();
+
             console.log(path)
+
+            path.forEach(element => {
+                grid[element[0]][element[1]].classList.add("path");
+            });
+
             return path
         }
 
+        // console.log(unvisited.size);
+        // console.log(unvisited.has(currentEl))
+
         unvisited.delete(currentEl);
 
-        if(currentEl !== null && distances[currentEl] !== Infinity){
-            const surround = getSurroundings(currentEl);
+        // console.log(unvisited.has(currentEl))
+        // return;
+
+        if (currentEl !== null && distances[currentEl] !== Infinity) {
+            
+            
+            const surround = getSurroundingsXYs(currentEl);
+            
 
             for(const neighbor of surround){
                 const dst = distances[currentEl] + 1;
 
-                if(dst < distances[neighbor]){
-                    distances[neighbor] = dst;
-                    previous[neighbor] = currentEl;
+                // console.log(neighbor);
+
+                if (dst < distances[neighbor]) {
+                    if ( grid[neighbor[0]][neighbor[1]].classList.contains("barr") ) {
+                        distances[neighbor] = Infinity
+                    }
+                    else {
+                        distances[neighbor] = dst;    
+                        previous[neighbor] = currentEl;
+                    }
+                    
+                    
                 }
             }
 
         }
+
+
+        // return;
     }
 
-    
+    console.log("...");
     return [];
 }
 
@@ -157,6 +223,18 @@ function gridClick(event){
     }   
 }
 
+function getXY(el) {
+    //if(el not in grid)
+    //do sth
+    for (let i = 0; i < grid_n; i++) {
+        for (let j = 0; j < grid_n; j++) {
+            if (grid[i][j] === el) {
+                return [i,j]
+            }
+        }
+    }
+    return [null, null]
+}
 
 function init_grid(n){
     gridW = document.getElementById('grid');
