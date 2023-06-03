@@ -132,8 +132,6 @@ function dijkstraSolve() {
             
             path.reverse();
 
-            console.log(path)
-
             path.forEach(element => {
                 grid[element[0]][element[1]].classList.add("path");
             });
@@ -175,8 +173,6 @@ function dijkstraSolve() {
 
         }
 
-
-        // return;
     }
 
     console.log("...");
@@ -188,7 +184,15 @@ function gridClick(event){
 
     trg = event.target;
     console.log(trg);
-    // console.log(getSurroundings(trg));
+
+    //clear previous path
+    grid.forEach(row => {
+        row.forEach(el => {
+            if (el.classList.contains("path")) {
+                el.classList.remove("path");
+            }
+        });
+    });
 
     if(trg.classList.contains("pntA")){
         pntA.classList.remove("pntA")
@@ -218,8 +222,6 @@ function gridClick(event){
         } else if(!(trg.classList.contains("pntB") || trg.classList.contains("pntA"))){
             trg.classList.add("barr")
         }
-        
-
     }   
 }
 
@@ -240,8 +242,8 @@ function init_grid(n){
     gridW = document.getElementById('grid');
     gridW.innerHTML = '';
 
-    console.log(gridW);
-
+    pntA = null
+    pntB = null
     grid_n = n
 
     grid = new Array(n).fill(0).map(() => new Array(n).fill(0));
@@ -253,7 +255,5 @@ function init_grid(n){
 
         gridW.appendChild(gridElement);
         grid[(i-i%n)/n][i%n] = gridElement;
-    
-        
     }
 }
