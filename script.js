@@ -1,10 +1,11 @@
-window.onload =()=>{
-
+window.onload = () => {
+    gridW = document.getElementById('grid');
     init_grid(16)
 }
 
-let grid = [];
+let gridW;
 
+let grid = [];
 let grid_n = 0;
 
 const border_width = "1.75px"
@@ -62,8 +63,6 @@ function getSurroundingsXYs(pnt) {
     
     return result;
 }
-
-const distances = {};
 
 function dijkstraSolve() {
     const pntB_XY = getXY(pntB)
@@ -179,20 +178,12 @@ function dijkstraSolve() {
     return [];
 }
 
-
 function gridClick(event){
 
     trg = event.target;
     console.log(trg);
 
-    //clear previous path
-    grid.forEach(row => {
-        row.forEach(el => {
-            if (el.classList.contains("path")) {
-                el.classList.remove("path");
-            }
-        });
-    });
+    clPath();
 
     if(trg.classList.contains("pntA")){
         pntA.classList.remove("pntA")
@@ -239,7 +230,7 @@ function getXY(el) {
 }
 
 function init_grid(n){
-    gridW = document.getElementById('grid');
+    // gridW = document.getElementById('grid');
     gridW.innerHTML = '';
 
     pntA = null
@@ -256,4 +247,43 @@ function init_grid(n){
         gridW.appendChild(gridElement);
         grid[(i-i%n)/n][i%n] = gridElement;
     }
+}
+
+function clGridBtn() {
+    init_grid(grid_n);
+}
+
+
+//==============================
+//==============================
+function setPntA() {
+    //todo: do the function
+}
+
+function setPntB() {
+    
+}
+
+function example1() {
+
+    
+    
+}
+function example2() {
+
+}
+
+function example3() {
+
+}
+
+
+function clPath(){
+    grid.forEach(row => {
+        row.forEach(el => {
+            if (el.classList.contains("path")) {
+                el.classList.remove("path");
+            }
+        });
+    });
 }

@@ -143,10 +143,18 @@ a{
     display: grid;
     place-items: center;
     margin: auto;
+}
+
+button{
     font-size: 15px;
     /* border-radius: 7px; */
 }
 
 .path{
     background-color: white;
+}
+
+.grid-wrapper > button{
+    /* width: 9%; */
+    margin-top: .5%;
 }
