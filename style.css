@@ -78,6 +78,9 @@ a{
     width: 20px;
     /* content: "."; */
     border: 1.75px yellow solid;
+    /* center text */
+    display: grid;
+    place-items: center;
 }
 
 .pntA{
@@ -151,6 +154,7 @@ button{
 }
 
 .path{
+    color: black;
     background-color: white;
 }
 

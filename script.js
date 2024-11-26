@@ -1,6 +1,7 @@
 window.onload = () => {
     gridW = document.getElementById('grid');
     init_grid(16)
+    printDistances = true;
 }
 
 let gridW;
@@ -13,6 +14,8 @@ const gridElemWidth = "15px"
 
 let pntA = null
 let pntB = null
+
+let printDistances;
 
 
 function getSurroundings(pnt){
@@ -146,7 +149,13 @@ function dijkstraSolve() {
                     }
                 }
             }
+            if(printDistances){
+                if(currentEl[0] != getXY(pntA)[0] && currentEl[1] != getXY(pntA)[1]){
+                    grid[currentEl[0]][currentEl[1]].innerHTML = distances[currentEl];
+                }
+            }
         }
+        
     }
     //no path found :(
     return [];
@@ -155,8 +164,6 @@ function dijkstraSolve() {
 function gridClick(event){
 
     trg = event.target;
-    console.log(trg);
-
     clPath();
 
     // if target is start/end point, remove it
@@ -297,6 +304,9 @@ function clPath(){
         row.forEach(el => {
             if (el.classList.contains("path")) {
                 el.classList.remove("path");
+            }
+            if (el.innerHTML != "") {
+                el.innerHTML = "";
             }
         });
     });
