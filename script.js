@@ -46,6 +46,13 @@ function getSurroundings(pnt){
     return result;
 }
 
+//
+
+/**
+ * Get the neighbors of a point (up, down, left, right)
+ * @param {*} pnt 
+ * @returns List of the neighbors of the point - [[x1, y1], [x2, y2], ...]
+ */
 function getSurroundingsXYs(pnt) {
     result = [];
 
@@ -65,16 +72,17 @@ function getSurroundingsXYs(pnt) {
 }
 
 function dijkstraSolve() {
-    const pntB_XY = getXY(pntB)
-
+    
     if(pntA == null || pntB == null){
         return null;
     }
 
-    const distances = {};
-    const previous = {}
+    const distances = {}; // distances from the start point
+    const previous = {}; // previous element to the key; used to reconstruct the shortest path
+
     const unvisited = new Set();
     
+    // prepare the distances, previous and unvisited sets
     for(i = 0; i < grid_n; i++){
         for (j = 0; j < grid_n; j++){
             
@@ -83,42 +91,26 @@ function dijkstraSolve() {
             unvisited.add([i, j]);
         }
     }
-
-    
-    console.log(distances);
-    // console.log(getXY(pntA));
     distances[getXY(pntA)] = 0;
 
-    
-    // return;
-    
+    const pntB_XY = getXY(pntB)
 
+    // main loop
     while (unvisited.size > 0) {
-        // console.log(1);
         let currentEl = null;
         let minDist = Infinity;
-    
+        
+        // find the unvisited element, closest to the start point
         for (const el of unvisited) {
             if(distances[el] < minDist){
                 currentEl = el;
                 minDist = distances[el];
-                // break;
             }
         }
-        
-        // return;
-        // console.log(currentEl)
-        
-        // console.log("==========")
-        // console.log(currentEl)
-        // console.log(getXY(pntB))
 
-        
+
+        // if the closest element is the end point, we found the path
         if(currentEl[0] ==  pntB_XY[0] && currentEl[1] ==  pntB_XY[1]){
-            // console.log(distances)
-            // console.log(previous)
-            // console.log(unvisited)
-
 
             const path = [];
             currentEl = previous[currentEl]
@@ -126,11 +118,10 @@ function dijkstraSolve() {
                 path.push(currentEl)
                 currentEl = previous[currentEl];
             }
-
-            // path.push(getXY(pntA));
-            
             path.reverse();
 
+
+            // mark the path on the grid
             path.forEach(element => {
                 grid[element[0]][element[1]].classList.add("path");
             });
@@ -138,24 +129,14 @@ function dijkstraSolve() {
             return path
         }
 
-        // console.log(unvisited.size);
-        // console.log(unvisited.has(currentEl))
-
         unvisited.delete(currentEl);
 
-        // console.log(unvisited.has(currentEl))
-        // return;
-
-        if (currentEl !== null && distances[currentEl] !== Infinity) {
-            
-            
+        // update distances to the neighbors of the current element
+        if (currentEl !== null && distances[currentEl] !== Infinity) {       
             const surround = getSurroundingsXYs(currentEl);
-            
 
             for(const neighbor of surround){
                 const dst = distances[currentEl] + 1;
-
-                // console.log(neighbor);
 
                 if (dst < distances[neighbor]) {
                     if ( grid[neighbor[0]][neighbor[1]].classList.contains("barr") ) {
@@ -165,16 +146,11 @@ function dijkstraSolve() {
                         distances[neighbor] = dst;    
                         previous[neighbor] = currentEl;
                     }
-                    
-                    
                 }
             }
-
         }
-
     }
-
-    console.log("...");
+    //no path found :(
     return [];
 }
 
@@ -185,6 +161,7 @@ function gridClick(event){
 
     clPath();
 
+    // if target is start/end point, remove it
     if(trg.classList.contains("pntA")){
         pntA.classList.remove("pntA")
         pntA = null
@@ -196,18 +173,19 @@ function gridClick(event){
         trg.classList.remove("pntB")
     }
     else{
+
+        // if no start/end point is set, set it
         if(pntA != null){
             if(pntB==null){
-                // pntB.classList.remove("pntB")
                 trg.classList.add("pntB")
-                pntB = trg
-
+                pntB = trg;
             }
         }else if(pntA == null){
             trg.classList.add("pntA");
             pntA = trg;
         }
 
+        // toggle barrier otherwise
         if(trg.classList.contains("barr")){
             trg.classList.remove("barr");
         } else if(!(trg.classList.contains("pntB") || trg.classList.contains("pntA"))){
@@ -216,9 +194,14 @@ function gridClick(event){
     }   
 }
 
+
+
+/**
+ * Find the coordinates of a grid element
+ * @param {*} el 
+ * @returns [x, y] - the coordinates of the element in the grid
+ */
 function getXY(el) {
-    //if(el not in grid)
-    //do sth
     for (let i = 0; i < grid_n; i++) {
         for (let j = 0; j < grid_n; j++) {
             if (grid[i][j] === el) {
@@ -229,8 +212,13 @@ function getXY(el) {
     return [null, null]
 }
 
+/**
+ *    Initialize the empty grid with n*n elements
+ *
+ *    @param {number} n - the number of elements in the grid
+ *    
+*/
 function init_grid(n){
-    // gridW = document.getElementById('grid');
     gridW.innerHTML = '';
 
     pntA = null
@@ -254,8 +242,6 @@ function clGridBtn() {
 }
 
 
-//==============================
-//==============================
 function setPntA() {
     //todo: do the function
 }
@@ -277,7 +263,9 @@ function example3() {
 
 }
 
-
+/**
+ * Remove all the path elements, without removing the barriers and the points
+ */
 function clPath(){
     grid.forEach(row => {
         row.forEach(el => {
