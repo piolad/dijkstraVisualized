@@ -46,8 +46,6 @@ function getSurroundings(pnt){
     return result;
 }
 
-//
-
 /**
  * Get the neighbors of a point (up, down, left, right)
  * @param {*} pnt 
@@ -251,9 +249,7 @@ function setPntB() {
 }
 
 function example1() {
-
-    
-    
+    loadExample([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0])
 }
 function example2() {
 
@@ -261,6 +257,36 @@ function example2() {
 
 function example3() {
 
+}
+
+function loadExample(data, n=16) {
+    gridW.innerHTML = '';
+
+    pntA = null
+    pntB = null
+    grid_n = n
+
+    grid = new Array(n).fill(0).map(() => new Array(n).fill(0));
+
+
+    for (let i = 0; i < n*n; i++) {
+        gridElement = document.createElement("div");
+        gridElement.addEventListener("click",gridClick, false);
+        if(data[i] == 1){
+            gridElement.classList.add("barr")
+        }
+        else if(data[i] == 2){
+            gridElement.classList.add("pntA")
+            pntA = gridElement;
+        }
+        else if(data[i] == 3){
+            gridElement.classList.add("pntB")
+            pntB = gridElement;
+        }
+
+        gridW.appendChild(gridElement);
+        grid[(i-i%n)/n][i%n] = gridElement;
+    }        
 }
 
 /**
