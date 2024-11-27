@@ -1,9 +1,8 @@
 window.onload = () => {
     gridW = document.getElementById('grid');
     init_grid(16)
-    showDistances = true;
-
     timeDelayChange();
+    showDistancesChbxChange()
 }
 
 let gridW;
@@ -18,8 +17,6 @@ const gridElemWidth = "15px"
 
 let pntA = null
 let pntB = null
-
-let showDistances;
 
 function getSurroundings(pnt){
     result = []
@@ -159,10 +156,8 @@ function dijkstraSolve() {
                     }
                 }
             }
-            if(showDistances){
                 if(currentEl[0] != getXY(pntA)[0] || currentEl[1] != getXY(pntA)[1]){
                     grid[currentEl[0]][currentEl[1]].innerHTML = distances[currentEl];
-                }
             }
         }
         setTimeout(step, delay);
@@ -324,4 +319,18 @@ function clPath(){
 
 function timeDelayChange() {
     delay = document.getElementById("td").value;
+}
+
+function showDistancesChbxChange(){
+    let showDistances = document.getElementById("showDistancesChbx").checked;
+    const styleSheet = document.styleSheets[0];
+
+    // Iterate through the CSS rules
+    for (let rule of styleSheet.cssRules) {
+        if (rule.selectorText === '#grid > div') {
+            // Modify the color property
+            rule.style.color = showDistances ? 'white' : 'transparent';
+            break;
+        }
+    }
 }

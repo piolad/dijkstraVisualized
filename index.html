@@ -38,11 +38,12 @@
 
                 <p>1. Choose point A and B</p>
                 <p>2. Build the maze</p>
-                <p>3. Set the following</p>
+                <p>3. Set the following options</p>
 
                 <label for="td">Time delay:</label>
-                <input type="number" name="timeDelay" id="td" value="100" oninput="timeDelayChange()">
-                <label for="td">ms</label>
+                <input type="number" name="timeDelay" id="td" value="0" oninput="timeDelayChange()">
+                <label for="td">ms</label></br>
+                <input type="checkbox" id="showDistancesChbx" name="showDistancesChbx" onclick="showDistancesChbxChange()"/> <label for="showDistancesChbx">Show distances</label>
 
                 <p>4. Click this button:</p>
                 <button onclick="dijkstraSolve()">Solve</button>

@@ -82,6 +82,7 @@ a{
     display: grid;
     place-items: center;
     cursor: pointer;
+    color: transparent;
 }
 
 .pntA{
@@ -93,6 +94,7 @@ a{
 }
 .pntA::after{
     content: 'A';
+    color: white;
 }
 
 .pntB{
@@ -104,6 +106,7 @@ a{
 }
 .pntB::after{
     content: 'B';
+    color: white;
 }
 
 .barr{
