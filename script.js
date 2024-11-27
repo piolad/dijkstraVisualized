@@ -1,10 +1,14 @@
 window.onload = () => {
     gridW = document.getElementById('grid');
     init_grid(16)
-    printDistances = true;
+    showDistances = true;
+
+    timeDelayChange();
 }
 
 let gridW;
+
+let delay;
 
 let grid = [];
 let grid_n = 0;
@@ -15,8 +19,7 @@ const gridElemWidth = "15px"
 let pntA = null
 let pntB = null
 
-let printDistances;
-
+let showDistances;
 
 function getSurroundings(pnt){
     result = []
@@ -96,8 +99,9 @@ function dijkstraSolve() {
 
     const pntB_XY = getXY(pntB)
 
+    function step(){
     // main loop
-    while (unvisited.size > 0) {
+
         let currentEl = null;
         let minDist = Infinity;
         
@@ -109,9 +113,15 @@ function dijkstraSolve() {
             }
         }
 
+        // if no unvisited element found, end
+        if(currentEl == null){
+            console.log("No path found")
+            return [];
+        }
+
 
         // if the closest element is the end point, we found the path
-        if(currentEl[0] ==  pntB_XY[0] && currentEl[1] ==  pntB_XY[1]){
+        if(currentEl && currentEl[0] ==  pntB_XY[0] && currentEl[1] ==  pntB_XY[1] ){
 
             const path = [];
             currentEl = previous[currentEl]
@@ -149,16 +159,16 @@ function dijkstraSolve() {
                     }
                 }
             }
-            if(printDistances){
-                if(currentEl[0] != getXY(pntA)[0] && currentEl[1] != getXY(pntA)[1]){
+            if(showDistances){
+                if(currentEl[0] != getXY(pntA)[0] || currentEl[1] != getXY(pntA)[1]){
                     grid[currentEl[0]][currentEl[1]].innerHTML = distances[currentEl];
                 }
             }
         }
-        
+        setTimeout(step, delay);
     }
-    //no path found :(
-    return [];
+
+    step();
 }
 
 function gridClick(event){
@@ -310,4 +320,8 @@ function clPath(){
             }
         });
     });
+}
+
+function timeDelayChange() {
+    delay = document.getElementById("td").value;
 }

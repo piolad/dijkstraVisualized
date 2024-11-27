@@ -81,6 +81,7 @@ a{
     /* center text */
     display: grid;
     place-items: center;
+    cursor: pointer;
 }
 
 .pntA{
