@@ -160,7 +160,11 @@ function dijkstraSolve() {
                     grid[currentEl[0]][currentEl[1]].innerHTML = distances[currentEl];
             }
         }
-        setTimeout(step, delay);
+        if(delay==0){
+            step();
+        }else{
+            setTimeout(step, delay);
+        }
     }
 
     step();
@@ -330,7 +334,10 @@ function showDistancesChbxChange(){
         if (rule.selectorText === '#grid > div') {
             // Modify the color property
             rule.style.color = showDistances ? 'white' : 'transparent';
-            break;
+        }
+        if (rule.selectorText === '#grid > div.path') {
+            // Modify the color property
+            rule.style.color = showDistances ? 'black' : 'transparent';
         }
     }
 }

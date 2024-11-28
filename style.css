@@ -157,7 +157,7 @@ button{
     /* border-radius: 7px; */
 }
 
-.path{
+#grid > div.path  {
     color: black;
     background-color: white;
 }
